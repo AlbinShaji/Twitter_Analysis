@@ -1,0 +1,16 @@
+require(twitteR)
+require(RCurl)
+##establish connection to twitter app
+
+##login to twitter 
+##open new tab and navigate to "apps.twitter.com"
+##fill in the details and create app
+##generate access token and copy below details
+Consumer_Key <- 'yours'
+Consumer_Secret <- 'your secret key'
+Access_Token	<- 'your access token'
+Access_Secret	<- 'your key'
+setup_twitter_oauth(Consumer_Key, Consumer_Secret, Access_Token, Access_Secret)
+##search for tweets
+GOT_tweets <- searchTwitter("Game of Thrones", n=10, lang = "en")##since I am a game of thrones fan
+GOT_tweets
