@@ -1,0 +1,27 @@
+require(twitteR)
+require(RCurl)
+require(igraph)
+require(tm)
+require(wordcloud)
+##establish connection to twitter app
+Consumer_Key <- 'yours'
+Consumer_Secret <- 'yours'
+Access_Token	<- 'yours'
+Access_Secret	<- 'yours'
+setup_twitter_oauth(Consumer_Key, Consumer_Secret, Access_Token, Access_Secret)
+election <- searchTwitter("us president election", n=100, lang = "en", resultType = "rece$")
+class(election)  
+election_text <- sapply(election, function(x) x$getText())
+str(election_text)
+
+##create corpus
+election_corpus <- Corpus(VectorSource(election_text))
+election_corpus
+inspect(election_corpus[1])
+
+## clean up the text
+elect_clean <- tm_map(elect_clean, removeWords, stopwords("english"))
+elect_clean <- tm_map(elect_clean, removeNumbers)
+elect_clean <- tm_map(elect_clean, stripWhitespace)
+##elect_clean <- tm_map(elect_clean, removeWords, c("watson", "she"))
+wordcloud(elect_clean)
