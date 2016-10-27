@@ -1,0 +1,31 @@
+require(twitteR)
+require(RCurl)
+require(igraph)
+##establish connection to twitter app
+Consumer_Key <- 'yours'
+Consumer_Secret <- 'yours'
+Access_Token	<- 'yours'
+Access_Secret	<- 'yours'
+setup_twitter_oauth(Consumer_Key, Consumer_Secret, Access_Token, Access_Secret)
+##connect to user account
+start <- getUser("@your_twitter-handle")
+
+##fetch friends
+frnds_obj <- lookupUsers(start$getFriendIDs())
+frnds_obj
+
+##fetch followers
+followers_obj <- lookupUsers(start$getFollowerIDs())
+followers_obj
+
+frnds <- sapply(frnds_obj[1:30], name)
+followers <- sapply(followers_obj[1:15], name)
+
+##establish connection
+relations <- merge(data.frame(User='@shaji_albin', Follower=frnds),
+                   data.frame(User=followers, Follower='@shaji_albin'), all = TRUE)
+
+##plot connections
+g <- graph.data.frame(relations, directed = TRUE)
+V(g)$label <- V(g)$name
+tkplot(g)
